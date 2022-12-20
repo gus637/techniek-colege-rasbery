@@ -1,4 +1,4 @@
-def modes(pos_mode,mode):
+def modes(pos_mode:list,mode:tuple):
     
     #print(mode)
     code=str()
@@ -13,11 +13,37 @@ def modes(pos_mode,mode):
     #for item in mode:      #
     #    print(item)        #bug
     return code
-def getNum(min,max,text)
+
+def getNum(min:int,max:int,*defalt_num:int):
     try:
-        num=int(input(text))
-	ex
-def menu(options,msg,*mode):
+        num=int(input())
+
+    except TypeError:
+            print("pleas type a number")
+            num=getNum(min,max)
+
+    except KeyboardInterrupt:
+        raise
+
+    except:
+            try:
+                defalt_num
+
+            except NameError:
+                return none
+
+            else:
+                return defalt_num[0]
+
+    else:    
+        if num < min or num >max:
+            print("not in range")
+            num=getNum(min,max)
+
+            return num
+
+
+def menu(options:list,msg:str,*mode:str):
     #print(mode)
     #inport this to make a simpel mune for the user
     #how to use: put a LIST with options in the first slot and a msg in the second
@@ -65,22 +91,14 @@ def menu(options,msg,*mode):
             cois=input()
             for str1 in cois:
                 print ("not finist")
-                return
+                return "1"
         cois=int(input())
     except(ValueError):
-        
+
         print("Pls entere a numder")
             
-    try:
-        if code[1]==true:
-            #print("test of hi")
-            return options[cois-1]
-        else:
-            if cois>num:
-                print("Not a option")
-                #print("num exeption")
-                
-            else:
-                return cois
-    except:
-        print("Not a option")
+    if code[1]==true:
+        #print("test of hi")
+        return options[cois-1]
+    else:
+        return cois

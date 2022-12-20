@@ -9,7 +9,7 @@ def main():
 	pi=menu(pi,"where do you want to log in?","str")
 
 	system("clear")
-	system("ssh "+d.user_stw[pi]+"@"+d.ip_stw[pi])
+	system("ssh "+user_stw[pi]+"@"+ip_stw[pi])
 
 	system("clear")
 
