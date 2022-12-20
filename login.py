@@ -2,7 +2,7 @@
 def main():
 	from os import system
 	from mojule import menu
-	import inlog_data as d
+	from inlog_data import *
 
 	pi=["DNS","Database","NTP","HTTP","Mailserver","Gameserver","Storage","IRC"]
 
