@@ -13,6 +13,10 @@ def modes(pos_mode,mode):
     #for item in mode:      #
     #    print(item)        #bug
     return code
+def getNum(min,max,text)
+    try:
+        num=int(input(text))
+	ex
 def menu(options,msg,*mode):
     #print(mode)
     #inport this to make a simpel mune for the user
