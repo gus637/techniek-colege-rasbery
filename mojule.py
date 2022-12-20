@@ -44,16 +44,16 @@ def getNum(min:int,max:int,*defalt_num:int):
 
 
 def menu(options:list,msg:str,*mode:str):
-    #print(mode)
-    #inport this to make a simpel mune for the user
+    
+    #inport this to make a simpel menu for the user
     #how to use: put a LIST with options in the first slot and a msg in the second
     #then you can set the mode for the output:"int" or "str"
     #"int"=makes te menu return a integer (on by default)
     #"str"=make the menu return a string
-    #you can also set it so that multiple choices can be made by entering "multy"
+    #you can also set it so that multiple choices can be made by entering "multi"
     
     
-    code=modes(["exit","str","multy","bug"],mode)#0="exit" 1="str"/"int" 2="multy" 3="bug"
+    code=modes(["exit","str","multi","bug"],mode)#0="exit" 1="str"/"int" 2="multi" 3="bug"
     
     true="1"
     num=0
