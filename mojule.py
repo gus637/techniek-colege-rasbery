@@ -1,4 +1,4 @@
-def modes(pos_mode:list,mode:tuple):
+def modes(pos_mode:list[str]|tuple[str],mode:list[str]|tuple[str])-> str:
     
     #print(mode)
     code=str()
@@ -14,7 +14,7 @@ def modes(pos_mode:list,mode:tuple):
     #    print(item)        #bug
     return code
 
-def getNum(min:int,max:int,*defalt_num:int):
+def getNum(min:int,max:int,*defalt_num:int) -> int:
     try:
         num=int(input())
 
@@ -25,7 +25,7 @@ def getNum(min:int,max:int,*defalt_num:int):
     except KeyboardInterrupt:
         raise
 
-    except:
+    except RecursionError:
             try:
                 defalt_num
 
@@ -43,14 +43,21 @@ def getNum(min:int,max:int,*defalt_num:int):
             return num
 
 
-def menu(options:list,msg:str,*mode:str):
+def menu(options:list[str]|tuple[str],msg:str,*mode:str) -> int|str:
+    """
+    inport this to make a simpel menu for the user
+
+    how to use:
     
-    #inport this to make a simpel menu for the user
-    #how to use: put a LIST with options in the first slot and a msg in the second
-    #then you can set the mode for the output:"int" or "str"
-    #"int"=makes te menu return a integer (on by default)
-    #"str"=make the menu return a string
-    #you can also set it so that multiple choices can be made by entering "multi"
+    put a LIST with options in the first slot and a msg in the second
+    then you can set the mode for the output:"int" or "str"
+    mode
+    "int"=makes te menu return a integer (on by default)
+    "str"=make the menu return a string.
+
+    you can also set it so that multiple choices can be made by entering "multi"
+    """
+
     
     
     code=modes(["exit","str","multi","bug"],mode)#0="exit" 1="str"/"int" 2="multi" 3="bug"
@@ -60,7 +67,7 @@ def menu(options:list,msg:str,*mode:str):
     str_len=0                         #
     num_len=len(str(len(options)))-1  #
     items=""
-    cois=0
+    chois=0
     coiss=[]
     if code[3]==true:
         print(code)
@@ -83,22 +90,20 @@ def menu(options:list,msg:str,*mode:str):
     
     if code[2]==true:
         print("type the numbers of with optionc you want to choos")
+
     else:
         print("type the number of the option that you want to choos")
-    try:
-        
-        if code[2]==true:
-            cois=input()
-            for str1 in cois:
-                print ("not finist")
-                return "1"
-        cois=int(input())
-    except(ValueError):
 
-        print("Pls entere a numder")
-            
-    if code[1]==true:
-        #print("test of hi")
-        return options[cois-1]
+    if code[2]==true:
+        while exit != True:
+            chois=0
+        for str1 in chois:
+            print ("not finist")
+            yield str1
+
     else:
-        return cois
+        chois=getNum(1,num)
+        if code[1]==true:
+            return options[chois-1]
+        else:
+            return chois
