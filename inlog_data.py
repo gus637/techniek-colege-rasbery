@@ -1,6 +1,6 @@
 #inlog data from de strucktuur wed.
 #===============================================#
-ip_stw={					
+ip_stw:dict[str,str]={					
 	"DNS":		"192.168.1.60",		
 	"Database":	"192.168.1.65",
 	"NTP":		"192.168.1.55",
@@ -10,7 +10,7 @@ ip_stw={
 	"Storage":	"192.168.1.80",
 	"IRC":		"192.168.1.90",
 	}
-user_stw={
+user_stw:dict[str,str]={
 	"DNS":		"user1",
 	"Database":	"user2",
 	"NTP":		"user",
@@ -20,5 +20,5 @@ user_stw={
 	"Storage":	"user4",
 	"IRC":		"user7",
 	}
-password_stw="12345Ab"
+password_stw:str="12345Ab"
 #================================================#
