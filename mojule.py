@@ -1,7 +1,7 @@
 def modes(pos_mode:list[str]|tuple[str],mode:list[str]|tuple[str])-> str:
     
     #print(mode)
-    code=str()
+    code:str=str()
     for item in pos_mode:
         #print(item)
         if item in mode:
@@ -14,13 +14,13 @@ def modes(pos_mode:list[str]|tuple[str],mode:list[str]|tuple[str])-> str:
     #    print(item)        #bug
     return code
 
-def getNum(min:int,max:int,*defalt_num:int) -> int:
+def getNumUser(min:int,max:int,*defalt_num:int) -> int:
     try:
-        num=int(input())
+        num:int=int(input())
 
     except TypeError:
             print("pleas type a number")
-            num=getNum(min,max)
+            num=getNumUser(min,max)
 
     except KeyboardInterrupt:
         raise
@@ -38,21 +38,21 @@ def getNum(min:int,max:int,*defalt_num:int) -> int:
     else:    
         if num < min or num >max:
             print("not in range")
-            num=getNum(min,max)
+            num=getNumUser(min,max)
 
             return num
 
 
 def menu(options:list[str]|tuple[str],msg:str,*mode:str) -> int|str:
     """
-    inport this to make a simpel menu for the user
+    inport this to make a simpel menu for the user.
 
     how to use:
     
-    put a LIST with options in the first slot and a msg in the second
-    then you can set the mode for the output:"int" or "str"
+    put a LIST with options in the first slot and a msg in the second,
+    then you can set the mode for the output:"int" or "str".
     mode
-    "int"=makes te menu return a integer (on by default)
+    "int"=makes te menu return a integer (on by default).
     "str"=make the menu return a string.
 
     you can also set it so that multiple choices can be made by entering "multi"
@@ -62,13 +62,13 @@ def menu(options:list[str]|tuple[str],msg:str,*mode:str) -> int|str:
     
     code=modes(["exit","str","multi","bug"],mode)#0="exit" 1="str"/"int" 2="multi" 3="bug"
     
-    true="1"
-    num=0
-    str_len=0                         #
-    num_len=len(str(len(options)))-1  #
-    items=""
-    chois=0
-    coiss=[]
+    true:str="1"
+    num:int=0
+    str_len:int=0                         #
+    num_len:int=len(str(len(options)))-1  #
+    items:str=""
+    chois:int=0
+    coiss:list[int]=[]
     if code[3]==true:
         print(code)
     if code[0]==true:
@@ -102,7 +102,7 @@ def menu(options:list[str]|tuple[str],msg:str,*mode:str) -> int|str:
             yield str1
 
     else:
-        chois=getNum(1,num)
+        chois=getNumUser(1,num)
         if code[1]==true:
             return options[chois-1]
         else:
