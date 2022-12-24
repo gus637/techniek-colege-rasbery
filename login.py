@@ -6,10 +6,11 @@ def main():
 
     pi: list[str] = ["DNS", "Database", "NTP", "HTTP", "Mailserver", "Gameserver", "Storage", "IRC"]
 
-    pi: str = menu(pi, "where do you want to log in?", "str")
+    pi: str = menu(pi,"where do you want to log in?", "str")
 
     system("clear")
-    system("ssh {user}@{ip}").format(user=user_stw[pi], ip=ip_stw[pi])
+    command = "ssh {user}@{ip}".format(user=user_stw[pi], ip=ip_stw[pi])
+    system(command)
     system("clear")
 
 

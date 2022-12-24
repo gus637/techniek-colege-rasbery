@@ -15,7 +15,7 @@ def modes(pos_mode: list[str] | tuple[str], mode: list[str] | tuple[str]) -> str
     return code
 
 
-def input_num(minimum: int, maximum: int, *default_num: int) -> int:
+def input_num(minimum: int, maximum: int, *default_num: int) -> int | None:
     """
     :param minimum: the minimum number that you want the user tho choose
     :param maximum: the biggest number you want the user to choose
@@ -31,23 +31,22 @@ def input_num(minimum: int, maximum: int, *default_num: int) -> int:
 
     except KeyboardInterrupt:
         raise
+        pass
 
     except RecursionError:
         try:
-            defalt_num
+            default_num
 
         except NameError:
-            return none
+            return
 
         else:
-            return defalt_num[0]
+            return default_num[0]
+    if num < minimum or num > maximum:
+        print("not in range")
+        num = input_num(minimum, maximum, default_num[0])
+        return num
 
-    else:
-        if num < minimum or num > maximum:
-            print("not in range")
-            num = input_num(minimum, maximum, default_num[0])
-
-            return num
 
 def menu(options: list[str] | tuple[str], msg: str, *mode: str) -> int | str:
     """
@@ -62,6 +61,10 @@ def menu(options: list[str] | tuple[str], msg: str, *mode: str) -> int | str:
     "str"=make the menu return a string.
 
     you can also set it so that multiple choices can be made by entering "multi"
+
+    Returns
+    -------
+    object
     """
 
     code = modes(["exit", "str", "multi", "bug"], mode)  # 0="exit" 1="str"/"int" 2="multi" 3="bug"
@@ -72,7 +75,6 @@ def menu(options: list[str] | tuple[str], msg: str, *mode: str) -> int | str:
     num_len: int = len(str(len(options))) - 1  #
     picked: int
     picks: list[int] = []
-    coiss: list[int] = []
     if code[3] == true:
         print(code)
     if code[0] == true:
@@ -86,7 +88,7 @@ def menu(options: list[str] | tuple[str], msg: str, *mode: str) -> int | str:
     print("\n\n                                 {msg)".format(msg=msg))  # prints the given msg at the top of the menu
     print("                               ", "_" * (
             str_len + 7 + num_len))  # prints the top line of the menu (the line's len is dependent of the longest string
-    for item in options:  #
+    for item in options:  # these lines of code are responsive for printing the menu and options
         num += 1  #
         p1: int = str_len - len(item)  #
         p2: str = " " * p1  #
@@ -104,11 +106,11 @@ def menu(options: list[str] | tuple[str], msg: str, *mode: str) -> int | str:
         print("type the numbers of with option you want to choose")
         don = False
         while don is not True:
-            picked:int = input_num(1,num, num)
+            picked: int = input_num(1, num, num)
             if picked is num:
                 don = True
             else:
-                picks = picks + picked
+                picks.append(picked)
         if code[1] is true:
             for picked in picks:
                 yield options[picked - 1]
@@ -117,7 +119,7 @@ def menu(options: list[str] | tuple[str], msg: str, *mode: str) -> int | str:
                 yield picked
     else:
         print("type the number of the option that you want to choose")
-        picked = getNumUser(1, num)
+        picked = input_num(1, num)
         if code[1] == true:
             return options[picked - 1]
         else:
@@ -131,7 +133,7 @@ class Computer:
         :param pc_name: the name that the pc has.
         :param user: the user(s) that use the pc. if there are multiple users put them in a list.
         :param ip: the ip that has deen given to the pc. if the pc has a static ip, put none in this area
-        :param os:
+        :param os: the operating system that is installed onto the computer
         """
         self.pc_name = pc_name
         self.user = user
@@ -150,14 +152,20 @@ class Computer:
                     i += 1
                     num_users -= 1
                 str_users = str_users + " and " + self.user[i]
-                msg = "this pc has the name {name} and has the ip {ip}, and it is used by: {users}. the os that is installed on the system is {os}".format(name=self.pc_name, ip=self.ip, users=str_users, os=self.os)
+                msg = "this pc has the name: {name} and has the ip: {ip}, and it is used by: {users}." \
+                      " the os that is installed on the system is: {os}" \
+                    .format(name=self.pc_name, ip=self.ip, users=str_users, os=self.os)
                 print(msg)
             else:
-                msg = "this pc has the has the name {name} and has the ip {ip}, it is used by {user}. the os that is installed on the system is {os}".format(name=self.pc_name, ip=self.ip, user=self.user[0], os=self.os)
+                msg = "this pc has the has the name {name} and has the ip {ip}, it is used by {user}." \
+                      " the os that is installed on the system is {os}" \
+                    .format(name=self.pc_name, ip=self.ip, user=self.user[0], os=self.os)
                 print(msg)
 
         else:
-            msg = "this pc has the has the name {name} and has the ip {ip}, and it is used by {user}. the os that is installed on the system is {os}".format(name=self.pc_name, ip=self.ip, user=self.user, os=self.os)
+            msg = "this pc has the has the name: {name} and has the ip: {ip}, and it is used by {user}." \
+                  " the os that is installed on the system is {os}" \
+                .format(name=self.pc_name, ip=self.ip, user=self.user, os=self.os)
             print(msg)
 
     def login(self):
@@ -171,6 +179,5 @@ class Computer:
 
 
 if __name__ == "__main__":
-    test = Computer("dorland_leptop", ["Gustave","zet"], "192.168.1.100", "windows 10")
+    test = Computer("Dorland_laptop", ["Gustave", "zet"], "192.168.1.100", "windows 10")
     test.description()
-    test.login()
