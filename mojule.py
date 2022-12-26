@@ -1,3 +1,6 @@
+from extra_types import IP4, IP6
+
+
 def modes(pos_mode: list[str] | tuple[str], mode: list[str] | tuple[str]) -> str:
     """
 
@@ -113,10 +116,10 @@ def menu(options: list[str] | tuple[str], msg: str, *mode: str) -> int | str:
                 picks.append(picked)
         if code[1] is true:
             for picked in picks:
-                yield options[picked - 1]
+                yield options[picked]
+
         else:
-            for picked in picks:
-                yield picked
+            return picks
     else:
         print("type the number of the option that you want to choose")
         picked = input_num(1, num)
@@ -127,20 +130,44 @@ def menu(options: list[str] | tuple[str], msg: str, *mode: str) -> int | str:
 
 
 class Computer:
-    def __init__(self, pc_name: str, user: str | list[str], ip: str, os: str):
+    def __init__(self, pc_name: str, user: str | list[str], ip: IP4 | IP6 | str | tuple | None, os: str | None):
         """
 
         :param pc_name: the name that the pc has.
         :param user: the user(s) that use the pc. if there are multiple users put them in a list.
-        :param ip: the ip that has deen given to the pc. if the pc has a static ip, put none in this area
+        :param ip: the ip that has deen given to the pc. if the pc has no static ip, put None in this area
         :param os: the operating system that is installed onto the computer
         """
         self.pc_name = pc_name
         self.user = user
-        self.ip = ip
+        if type(ip) is IP4:
+            self.ip = ip
+
+        elif type(ip) is str:
+            self.ip = IP4.with_string(ip)
+
+        elif type(ip) is tuple:
+            self.ip = IP4.with_tuple(ip)
+
+        elif ip is None:
+            self.ip = None
+
+        else:
+            raise TypeError
+
         self.os = os
 
     def description(self):
+        if self.os is not None:
+            msg2 = f"the os that is installed on the system is {self.os}"
+        else:
+            msg2 = ""
+
+        if self.ip is not None:
+            msg1 = f" and has the ip: {self.ip}"
+        else:
+            msg1 = ""
+
         if type(self.user) is list:
             num_users: int = len(self.user)
             if num_users > 1:
@@ -148,36 +175,25 @@ class Computer:
                 num_users -= 1
                 i: int = 1
                 while num_users > 1:
-                    str_users = str_users + ", {0}".format(self.user[i])
+                    str_users = str_users + f", {self.user[i]}"
                     i += 1
                     num_users -= 1
-                str_users = str_users + " and " + self.user[i]
-                msg = "this pc has the name: {name} and has the ip: {ip}, and it is used by: {users}." \
-                      " the os that is installed on the system is: {os}" \
-                    .format(name=self.pc_name, ip=self.ip, users=str_users, os=self.os)
-                print(msg)
+                str_users = str_users + f" and {self.user[i]}"
+                print(
+                    f"this pc has the name: {self.pc_name}{msg1}, and it is used by: {str_users}. {msg2}")
             else:
-                msg = "this pc has the has the name {name} and has the ip {ip}, it is used by {user}." \
-                      " the os that is installed on the system is {os}" \
-                    .format(name=self.pc_name, ip=self.ip, user=self.user[0], os=self.os)
-                print(msg)
+                print(
+                    f"this pc has the name {self.pc_name}{msg1}, it is used by {self.user[0]}. {msg2}")
 
         else:
-            msg = "this pc has the has the name: {name} and has the ip: {ip}, and it is used by {user}." \
-                  " the os that is installed on the system is {os}" \
-                .format(name=self.pc_name, ip=self.ip, user=self.user, os=self.os)
-            print(msg)
+            print(
+                f"this pc has the name: {self.pc_name}{msg1}, and it is used by {self.user}. {msg2}")
 
+    # noinspection PyTypeChecker
     def login(self):
         from os import system
         if type(self.user) is list and len(self.user) > 1:
-            user: str = menu(self.user, "as witch user do you want to log in", "str")
+            user: str = str(menu(self.user, "as witch user do you want to log in", "str"))
         else:
             user: str = self.user
-        ssh: str = "ssh {user}@{ip}".format(user=user, ip=self.ip)
-        system(ssh)
-
-
-if __name__ == "__main__":
-    test = Computer("Dorland_laptop", ["Gustave", "zet"], "192.168.1.100", "windows 10")
-    test.description()
+        system(f"ssh {user}@{str(self.ip)}")
