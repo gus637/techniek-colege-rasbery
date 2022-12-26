@@ -1,3 +1,6 @@
+if __name__ == "__main__":
+    from os import system
+
 from extra_types import IP4, IP6
 
 
@@ -166,7 +169,7 @@ class Computer:
         if self.ip is not None:
             msg1 = f" and has the ip: {self.ip}"
         else:
-            msg1 = ""
+            msg1 = " it has no ip"
 
         if type(self.user) is list:
             num_users: int = len(self.user)
@@ -191,9 +194,12 @@ class Computer:
 
     # noinspection PyTypeChecker
     def login(self):
-        from os import system
-        if type(self.user) is list and len(self.user) > 1:
-            user: str = str(menu(self.user, "as witch user do you want to log in", "str"))
-        else:
-            user: str = self.user
-        system(f"ssh {user}@{str(self.ip)}")
+        if self.ip is not None:
+            try:
+                if type(self.user) is list and len(self.user) > 1:
+                    user: str = str(menu(self.user, "as witch user do you want to log in", "str"))
+                else:
+                    user: str = self.user
+                system(f"ssh {user}@{str(self.ip)}")
+            except NameError:
+                print("pleas import system from os")
