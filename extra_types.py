@@ -1,45 +1,39 @@
-class IP4:
-    def __init__(self, int1: int, int2: int, int3: int, int4: int):
-        byte_list: list[int] = [int1, int2, int3, int4]
-        error: bool = False
+class IPv4:
+	def __init__(self, *ints: int | tuple[int,int,int,int]):
 
-        for byte in byte_list:
-            if byte < 0 or byte > 255:
-                error = True
+		if type(ints[0]) == tuple: ints = ints[0]
 
-        if error is True:
-            raise
+		for byte in ints:
+			if byte < 0 or byte > 255: raise
 
-        else:
-            self.byte4 = int4
-            self.byte3 = int3
-            self.byte2 = int2
-            self.byte1 = int1
+		else:
+			self.byte1, self.byte2, self.byte3, self.byte4 = ints
 
-    @classmethod
-    def with_string(cls, bytes_string: str):
-        bytes_list: list[int] = []
-        bytes_string = bytes_string.split(".")
-        for byte in bytes_string:
-            bytes_list.append(int(byte))
+	@classmethod
+	def with_string(cls, bytes_string: str):
+		bytes_string = bytes_string.split(".")
+		new_list = []
+		for str_ in  bytes_string:
+			new_list.append(int(str_))
+		int1, int2, int3, int4 = new_list
 
-        byte1 = bytes_list[0]
-        byte2 = bytes_list[1]
-        byte3 = bytes_list[2]
-        byte4 = bytes_list[3]
-        return cls(byte1, byte2, byte3, byte4)
+		return cls(int1,int2,int3,int4)
 
-    @classmethod
-    def with_tuple(cls, tuple_int: tuple[int]):
-        byte1 = tuple_int[0]
-        byte2 = tuple_int[1]
-        byte3 = tuple_int[2]
-        byte4 = tuple_int[3]
-        return cls(byte1, byte2, byte3, byte4)
+	def __str__(self):
+		return f"{str(self.byte1)}.{str(self.byte2)}.{str(self.byte3)}.{str(self.byte4)}"
 
-    def __str__(self):
-        return f"{str(self.byte1)}.{str(self.byte2)}.{str(self.byte3)}.{str(self.byte4)}"
+	def __call__(self):
+		return str(self)
 
+	def ping(self):
+		from os import system; system(f"ping {self()}")
 
-class IP6(IP4):
-    pass
+	@staticmethod
+	def ip_chaker(ip:tuple[int,int,int,int]):
+		for i in ip:
+			if i < 0 or i > 255: raise BytesWarning(
+				"one byte ore more were not within 0-255, pls make sure that all 4 sections of the address fit in a byte")
+
+	@property
+	def ip(self):
+		return str(self)

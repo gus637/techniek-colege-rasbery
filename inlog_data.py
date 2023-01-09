@@ -1,8 +1,8 @@
 # login data from de structure wed.
 # ===============================================#
-from extra_types import IP4
+from extra_types import IPv4
 
-ip_stw: dict[str, IP4.with_string] = {
+ip_stw: dict[str, IPv4.with_string] = {
     "DNS":			 "192.168.1.60",
     "Database":		 "192.168.1.65",
     "NTP":			 "192.168.1.55",

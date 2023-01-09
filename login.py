@@ -1,15 +1,14 @@
 #!/usr/bin/python
 def main():
     from os import system
-    from mojule import menu
     from inlog_data import ip_stw, user_stw
+    from Computer_class import Computer
 
     pi: list[str] = ["DNS", "Database", "NTP", "HTTP", "Mailserver", "Gameserver", "Storage", "IRC"]
-
-    pi: str = str(menu(pi, "where do you want to log in?", "str"))
+    Computer.generator(pi,user_stw,ip_stw,"RaspberryPi")
 
     system("clear")
-    system(f'ssh {user_stw[pi]}@{ip_stw[pi]}')
+    Computer.login_menu()
     system("clear")
 
 
